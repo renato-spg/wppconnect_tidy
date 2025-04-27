@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@wppconnect-team/wppconnect": "^1.36.4",
+    "axios": "^1.9.0",
+    "body-parser": "^2.2.0",
+    "canvas": "^3.1.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "gtts": "^0.2.1",
+    "mariadb": "^3.4.1",
+    "play-sound": "^1.1.6",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  }
+}
