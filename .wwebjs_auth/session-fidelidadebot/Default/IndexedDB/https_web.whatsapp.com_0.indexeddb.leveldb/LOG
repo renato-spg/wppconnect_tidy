@@ -1,0 +1,25 @@
+2025/08/06-20:19:31.392 1c40 Reusing MANIFEST C:\Users\Issei\Documents\projects_freelance\boss_mateus\.wwebjs_auth\session-fidelidadebot\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/06-20:19:31.393 1c40 Recovering log #256
+2025/08/06-20:19:31.900 1c40 Reusing old log C:\Users\Issei\Documents\projects_freelance\boss_mateus\.wwebjs_auth\session-fidelidadebot\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000256.log 
+2025/08/06-20:19:34.265 718 Level-0 table #264: started
+2025/08/06-20:19:34.357 718 Level-0 table #264: 1115330 bytes OK
+2025/08/06-20:19:34.360 718 Delete type=0 #256
+2025/08/06-20:19:34.361 718 Manual compaction at level-0 from '\x00*\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00+\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/06-20:19:34.409 37d8 Level-0 table #266: started
+2025/08/06-20:19:34.441 37d8 Level-0 table #266: 448 bytes OK
+2025/08/06-20:19:34.444 37d8 Delete type=0 #263
+2025/08/06-20:19:34.444 37d8 Manual compaction at level-0 from '\x00+\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00,\x00\x00\x00' @ 0 : 0; will stop at '\x00+\x00\x00\x05' @ 1474827 : 0
+2025/08/06-20:19:34.444 37d8 Compacting 1@0 + 1@1 files
+2025/08/06-20:19:34.674 37d8 Generated table #267@0: 28081 keys, 558032 bytes
+2025/08/06-20:19:34.674 37d8 Compacted 1@0 + 1@1 files => 558032 bytes
+2025/08/06-20:19:34.675 37d8 compacted to: files[ 0 1 4 0 0 0 0 ]
+2025/08/06-20:19:34.676 37d8 Delete type=2 #266
+2025/08/06-20:19:34.676 37d8 Manual compaction at level-0 from '\x00+\x00\x00\x05' @ 1474827 : 0 .. '\x00,\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/06-20:19:39.468 1c40 Compacting 1@1 + 4@2 files
+2025/08/06-20:19:39.800 1c40 Generated table #268@1: 89912 keys, 2240221 bytes
+2025/08/06-20:19:40.057 1c40 Generated table #269@1: 44499 keys, 2208854 bytes
+2025/08/06-20:19:40.279 1c40 Generated table #270@1: 36237 keys, 2216835 bytes
+2025/08/06-20:19:40.481 1c40 Generated table #271@1: 36651 keys, 1357563 bytes
+2025/08/06-20:19:40.481 1c40 Compacted 1@1 + 4@2 files => 8023473 bytes
+2025/08/06-20:19:40.485 1c40 compacted to: files[ 0 0 4 0 0 0 0 ]
+2025/08/06-20:19:40.487 1c40 Delete type=2 #264

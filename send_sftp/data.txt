@@ -1,0 +1,78 @@
+38.242.199.148
+e3702VpVU6RG859n6X3PcKm3Favela
+
+
+
+uey#keikduey##keyznking
+
+sudo lsof -i :3001(port)
+
+sudo kill -9 193622//id começo
+
+
+sudo systemctl stop bedrock.service
+sudo systemctl start bedrock.service
+sudo systemctl status bedrock.service
+sudo systemctl restart bedrock.service
+
+
+polvocellfidelidade@outlook.com
+Polvo#fidelidade25
+
+senha app renatosoares
+qbxt yxwh kitj hphy
+
+
+Criar o banco de dados root com sua senha
+------------------------------------
+
+mysql -u root -p
+
+use card;
+
+SELECT * FROM 
+
+SHOW TABLES;
+
+use mysql;
+create user 'root'@'%' identified by 'uey#keikduey##keyznking';
+grant all privileges on . to 'root'@'%' with grant option;
+flush privileges;
+exit
+
+----------------------------------------
+
+sO: Ubuntu/Debian
+------------------------------------
+Instalar o banco de dados Mariadb
+------------------------------------
+sudo apt install mariadb-server
+
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+
+sudo systemctl status mariadb
+
+sudo mysql_secure_installation
+
+
+-- Supondo stores já cadastradas:
+-- ('96b1eb22c47324bc', 'Loja Centro')
+-- ('b3f34ca21f2c58a1', 'Loja Norte')
+-- ('8e9a1a7b0d3e77ef', 'Loja Sul')
+-- ('96b1eb22c47324po', 'Loja OESTE')
+
+INSERT INTO `users` (`name`, `surname`, `cpf`, `birthday`, `email`, `whatsapp`, `point`, `created_at`) VALUES
+('Ana', 'Silva', '12345678901', '1990-02-15', '96b1eb22c47324bc', '31999999991', '2', '2025-05-01'),
+('Carlos', 'Oliveira', '23456789012', '1988-06-30', '96b1eb22c47324bc', '31999999992', '1', '2025-05-01'),
+('Beatriz', 'Souza', '34567890123', '1995-11-20', 'b3f34ca21f2c58a1', '31999999993', '1', '2025-05-01'),
+('João', 'Pereira', '45678901234', '1980-09-10', '8e9a1a7b0d3e77ef', '31999999994', '1', '2025-05-02'),
+('Marina', 'Lima', '56789012345', '1999-07-25', '96b1eb22c47324bc', '31999999995', '1', '2025-05-02'),
+('Lucas', 'Ferreira', '67890123456', '1992-01-12', 'b3f34ca21f2c58a1', '31999999996', '1', '2025-05-02'),
+('Paula', 'Costa', '78901234567', '1993-04-18', 'b3f34ca21f2c58a1', '31999999997', '1', '2025-05-03'),
+('Daniel', 'Ramos', '89012345678', '1985-12-22', 'b3f34ca21f2c58a1', '31999999998', '1', '2025-05-03'),
+('Jéssica', 'Almeida', '90123456789', '1997-08-05', '8e9a1a7b0d3e77ef', '31999999999', '1', '2025-05-03'),
+('Pedro', 'Melo', '01234567890', '2000-03-17', '96b1eb22c47324bc', '31999999900', '1', '2025-05-04'),
+('Pedro', 'Melo', '01234567890', '2000-03-17', '96b1eb22c47324po', '31999999900', '1', '2025-05-04');
+
+

@@ -36,7 +36,7 @@ const frasesPorEstagio = [
   'Última marcação! Próxima compra vale prêmio! 🎁',
 ];
 
- ALTER TABLE data ADD COLUMN c4 VARCHAR(255) default "Tá quase! Só mais 2 compras para ganhar. ";
+ ALTER TABLE data ADD COLUMN message_email TEXT default "Volte sempre";
 
 function drawLoyaltyCard(filledSlots) {
   const width = 420;

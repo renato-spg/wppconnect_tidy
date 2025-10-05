@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Carteirinha</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: #ffffff;
+    }
+    .polvo {
+      display: flex;
+      margin-top: 10px;
+    }
+    .polvo img {
+      width: 100px;
+      height: auto;
+    }
+    .titulo {
+      font-weight: bold;
+      font-size: 25px;
+      margin-top: 10px;
+    }
+    .texto {
+      font-size: 22px;
+      margin-top: 10px;
+    }
+    .caixinhas {
+      margin-top: 20px;
+    }
+    .caixinha {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      border: 2px solid black;
+      border-radius: 8px;
+      vertical-align: middle;
+    }
+    .marcado {
+      background-color: gold;
+    }
+    #container {
+      background-color: #fff;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 30px;
+      border: 4px solid #4A90E2;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    html, body {
+  margin: 0;
+  padding: 0;
+ background: white;
+}
+small{
+  font-size: 20px;
+  color: #666;
+}
+  </style>
+</head>
+<body>
+
+  <div id="container">
+ 
+
+  <div class="titulo">"CONSAGRE AO SENHOR TUDO O QUE VOCÊ FAZ, E OS SEUS PLANOS SERÃO BEM SUCEDIDOS"</div>
+
+  <div class="texto">
+    <br> Nas compras acima de R$20,00 ganhe um selo<br><br>
+    Complete 5 compras e ganhe R$30,00 em produtos<br>
+    <div class="polvo">
+      <img src="polvo.jpg" alt="Polvo Fictício">
+
+    </div>
+    
+  
+    <small>(Válido 1 marcação por dia)</small>
+  </div>
+ 
+  
+  <div class="caixinhas" id="caixinhas"></div>
+
+</div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const points = parseInt(urlParams.get('point') || '0', 10);
+
+    const container = document.getElementById('caixinhas');
+
+    for (let i = 1; i <= 5; i++) {
+      const box = document.createElement('div');
+      box.className = 'caixinha';
+      if (i <= points) {
+        box.classList.add('marcado');
+      }
+      container.appendChild(box);
+    }
+  </script>
+
+</body>
+</html>

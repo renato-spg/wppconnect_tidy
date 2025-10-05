@@ -1,2 +1,1 @@
-const banco = [];
-module.exports.db = banco;
+export default db = [];

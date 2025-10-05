@@ -1,143 +1,145 @@
-const { createCanvas } = require('canvas');
-const fs = require('fs').promises;
-const path = require('path');
- function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-  const words = text.split(' ');
-  let line = '';
-  const lines = [];
+import { createCanvas, loadImage } from "canvas";
+import fs from "fs/promises"; // Importa a versão de promises do File System
+import path from "path";
+//drawLoyaltyCard(1, "");
 
-  for (let i = 0; i < words.length; i++) {
-    const testLine = line + words[i] + ' ';
-    const metrics = ctx.measureText(testLine);
-    const testWidth = metrics.width;
+import { fileURLToPath } from "url"; // Importe 'fileURLToPath' para converter a URL em caminho
+// Definições necessárias para simular __dirname no ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-    if (testWidth > maxWidth && i > 0) {
-      lines.push(line);
-      line = words[i] + ' ';
-    } else {
-      line = testLine;
-    }
-  }
-  lines.push(line);
-
-  for (let i = 0; i < lines.length; i++) {
-    ctx.fillText(lines[i], x, y + i * lineHeight);
-  }
-
-  return lines.length * lineHeight;
-}
-
-// Frases para cada estágio do cartão (índice 0 para 1 marcação, etc.)
-/*const frasesPorEstagio = [
-  'Comece sua jornada! Após 5 compras, ganhe R$ 30 em produtos. 💸',
-  'Boa! Faltam só 4 marcações para sua recompensa. 🛒',
-  'Metade do caminho! Continue acumulando. 🔥',
-  'Tá quase! Só mais 2 compras para ganhar. 🎯',
-  'Última marcação! Próxima compra vale prêmio! 🎁',
-];*/
-
-async function drawLoyaltyCard(point,phrase) {
-  const width = 420;
-  const height = 450;
-  const padding = 30;
+export async function drawLoyaltyCard(point, phrase = "") {
+  const width = 1200; // Aumentado de 600
+  const height = 780; // Aumentado de 390
   const canvas = createCanvas(width, height);
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
-  // Fundo com sombra
-  ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = 'rgba(0,0,0,0.2)';
-  ctx.shadowBlur = 15;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 5;
+  // Fundo
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, width, height);
-  ctx.shadowColor = 'transparent';
 
-  // Borda externa
-  ctx.strokeStyle = '#d4af37';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(2, 2, width - 4, height - 4);
+  // Container com borda azul
+  const container = {
+    x: 10,
+    y: 10,
+    width: width - 20,
+    height: height - 20,
+    radius: 30, // Aumentado para proporção
+  };
+  ctx.beginPath();
+  ctx.moveTo(container.x + container.radius, container.y);
+  ctx.lineTo(container.x + container.width - container.radius, container.y);
+  ctx.quadraticCurveTo(
+    container.x + container.width,
+    container.y,
+    container.x + container.width,
+    container.y + container.radius
+  );
+  ctx.lineTo(
+    container.x + container.width,
+    container.y + container.height - container.radius
+  );
+  ctx.quadraticCurveTo(
+    container.x + container.width,
+    container.y + container.height,
+    container.x + container.width - container.radius,
+    container.y + container.height
+  );
+  ctx.lineTo(container.x + container.radius, container.y + container.height);
+  ctx.quadraticCurveTo(
+    container.x,
+    container.y + container.height,
+    container.x,
+    container.y + container.height - container.radius
+  );
+  ctx.lineTo(container.x, container.y + container.radius);
+  ctx.quadraticCurveTo(
+    container.x,
+    container.y,
+    container.x + container.radius,
+    container.y
+  );
+  ctx.closePath();
+  ctx.fillStyle = "#ffffff";
+  ctx.fill();
+  ctx.lineWidth = 8; // Aumentado para proporção
+  ctx.strokeStyle = "#4A90E2";
+  ctx.stroke();
 
-  // Título
-  ctx.font = 'bold 26px "Segoe UI Symbol"';
-  ctx.fillStyle = '#333';
-  ctx.textAlign = 'center';
-  ctx.fillText('🎉 MEU CARTÃO FIDELIDADE 🎉', width / 2, padding);
+  // Texto centralizado
+  ctx.fillStyle = "#000";
+  ctx.textAlign = "center";
 
-  // Slots
-  const slotSize = 50;
-  const slotSpacing = 12;
-  const startX = (width - (5 * slotSize + 4 * slotSpacing)) / 2;
-  const startY = padding + 40;
+  // Título bíblico
+  ctx.font = "bold 36px Arial"; // Aumentado de 18px
+  ctx.fillText('"CONSAGRE AO SENHOR TUDO O QUE VOCÊ FAZ,', width / 2, 80);
+  ctx.fillText('E OS SEUS PLANOS SERÃO BEM SUCEDIDOS"', width / 2, 120);
 
-  for (let i = 0; i < 5; i++) {
-    const x = startX + i * (slotSize + slotSpacing);
-    const y = startY;
+  // Frase customizada (descomente se necessário)
+  /*
+  if (phrase && phrase.trim() !== "") {
+    ctx.font = "italic 32px Arial"; // Aumentado de 16px
+    ctx.fillText(phrase, width / 2, 160);
+  }
+  */
 
-    ctx.beginPath();
-    const radius = 8;
-    ctx.moveTo(x + radius, y);
-    ctx.lineTo(x + slotSize - radius, y);
-    ctx.quadraticCurveTo(x + slotSize, y, x + slotSize, y + radius);
-    ctx.lineTo(x + slotSize, y + slotSize - radius);
-    ctx.quadraticCurveTo(x + slotSize, y + slotSize, x + slotSize - radius, y + slotSize);
-    ctx.lineTo(x + radius, y + slotSize);
-    ctx.quadraticCurveTo(x, y + slotSize, x, y + slotSize - radius);
-    ctx.lineTo(x, y + radius);
-    ctx.quadraticCurveTo(x, y, x + radius, y);
-    ctx.closePath();
+  // Frase explicativa
+  ctx.font = "32px Arial"; // Aumentado de 16px
+  ctx.fillText("Nas compras acima de R$20,00 ganhe um selo", width / 2, 200);
+  ctx.fillText(
+    "Complete 5 compras e ganhe R$30,00 em produtos",
+    width / 2,
+    240
+  );
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#555';
-    ctx.stroke();
-
-    if (i < point) {
-      ctx.fillStyle = '#d4af37';
-      ctx.fill();
-
-      ctx.font = '28px "Segoe UI Symbol"';
-      ctx.fillStyle = '#fff';
-      ctx.textAlign = 'center';
-      ctx.fillText('✔', x + slotSize / 2, y + slotSize / 1.5);
-    }
+  // Polvo
+  try {
+    const imagePath = path.resolve(__dirname, "img", "polvo.jpg");
+    console.log(`Tentando carregar imagem: ${imagePath}`);
+    await fs.access(imagePath, fs.constants.F_OK); // Verificar se a imagem existe
+    const image = await loadImage(imagePath);
+    ctx.drawImage(image, width / 2 - 100, 280, 200, 200); // Aumentado de 100x100
+  } catch (err) {
+    console.warn(
+      `Imagem polvo.jpg não encontrada em ${path.resolve(
+        __dirname,
+        "img",
+        "polvo.jpg"
+      )}. Pulando...`,
+      err
+    );
   }
 
-  // Mensagem personalizada conforme progresso
-  const mensagem = phrase || 'Continue acumulando e ganhe recompensas! 🎉';
+  // Texto menor
+  ctx.fillStyle = "#666";
+  ctx.font = "28px Arial"; // Aumentado de 14px
+  ctx.fillText("(Válido 1 marcação por dia)", width / 2, 510);
 
-  ctx.font = '18px "Segoe UI Symbol"';
-  ctx.fillStyle = '#333';
-  ctx.textAlign = 'center';
-  const maxWidth = width - 2 * padding;
-  const lineHeight = 26;
-  const textY = startY + slotSize + 50;
+  // Caixinhas
+  const boxSize = 100; // Aumentado de 50
+  const spacing = 30; // Aumentado de 20 para proporção
+  const total = 5;
+  const startX = (width - (boxSize * total + spacing * (total - 1))) / 2;
+  const y = 560; // Ajustado para novo layout
+  for (let i = 0; i < total; i++) {
+    const x = startX + i * (boxSize + spacing);
+    ctx.beginPath();
+    ctx.roundRect(x, y, boxSize, boxSize, 16); // Aumentado raio
+    ctx.fillStyle = i < point ? "gold" : "#fff";
+    ctx.fill();
+    ctx.lineWidth = 4; // Aumentado para proporção
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+  }
 
-  wrapText(ctx, mensagem, width / 2, textY, maxWidth, lineHeight);
-
-  // Observação
-  ctx.font = 'bold 16px "Segoe UI Symbol"';
-  ctx.fillStyle = '#c0392b';
-  ctx.fillText('Obs: Válido 1 marcação por dia.', width / 2, textY + 70);
-
-
-
-  const buffer = canvas.toBuffer('image/png');
+  // Salvar imagem
   const fileName = `loyalty_card_${point}.png`;
-  const filePath = path.resolve(__dirname, 'img', fileName);
-
-  // Garantir que a pasta existe (caso ainda não tenha)
+  const filePath = path.resolve(__dirname, "img", fileName);
+  console.log(`Salvando imagem em: ${filePath}`);
   await fs.mkdir(path.dirname(filePath), { recursive: true });
-
-  // Salvar o arquivo de forma assíncrona
+  const buffer = canvas.toBuffer("image/png");
   await fs.writeFile(filePath, buffer);
-  console.log(`Cartão com ${point} marcações gerado!`);
-return filePath;
+  console.log(`✅ Cartão gerado em: ${filePath}`);
 
- 
-  
+  return { buffer, filePath }; // Retornar o buffer e o caminho
 }
-
-// Gerar cartões de 1 a 5 marcações
-/*for (let i = 1; i <= 5; i++) {
-  drawLoyaltyCard(i);
-}*/
-module.exports = { drawLoyaltyCard };
