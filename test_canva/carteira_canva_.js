@@ -1,12 +1,13 @@
-const { createCanvas, loadImage } = require("canvas");
-const fs = require("fs").promises;
-const path = require("path");
+import { createCanvas, loadImage } from "canvas";
+import fs from "fs/promises"; // Importa a versão de promises do File System
+import path from "path";
+//drawLoyaltyCard(1, "");
 
 import { fileURLToPath } from "url"; // Importe 'fileURLToPath' para converter a URL em caminho
 // Definições necessárias para simular __dirname no ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-//drawLoyaltyCard(1, "");
+drawLoyaltyCard(1, "");
 export async function drawLoyaltyCard(point, phrase = "") {
   const width = 2400; // Aumentado para máximo impacto
   const height = 1560; // Aumentado para máximo impacto

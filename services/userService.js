@@ -303,7 +303,7 @@ export async function getUsers(cpf = null) {
 
         // Compara strings
         if (lastDate === today) {
-          return "Você já realizou esta ação hoje. Tente novamente amanhã";
+          //return "Você já realizou esta ação hoje. Tente novamente amanhã";
         }
         // Caso contrário, realiza a ação e atualiza a data da última ação
         await conn.query(

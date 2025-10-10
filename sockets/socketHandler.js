@@ -321,18 +321,62 @@ const data = await getData(category)
       /*   console.log('Error ao atualizar dados');
         socket.emit('updated-data', 'Erro ao atualizar os dados!');*/
     });
+    socket.on(
+      "sendMessage",
+      async ({ storeName, number, point, phrase, sessionName }) => {
+        queue.add(async () => {
+          if (!number || number.trim().length === 0) return;
 
+          // em vez de mandar direto pro client, manda via socket pro outro Node
+          console.log("Emitindo send-message-whatsapp-api");
+          socketMap.get("whatsapp_api").emit("send-message-whatsapp-api", {
+            storeName,
+            number,
+            point,
+            phrase,
+            sessionName,
+          });
+        });
+      }
+    );
+
+    // resposta do outro Node
+    socket.on(
+      "response-send-message",
+      async ({ success, message, storeName, error }) => {
+        console.log("response", {
+          success,
+          message,
+          storeName,
+          error,
+        });
+
+        if (success) {
+          console.log("success: " + message);
+
+          //socketMap.get(storeName).emit("success", message);
+        } else {
+          console.log("error_verify " + message);
+          //   socketMap.get(storeName).emit("error_verify", message);
+        }
+
+        if (error) {
+          socketMap.get(storeName).emit("error_verify", message);
+        }
+      }
+    );
+    /*
     socket.on(
       "sendMessage",
       async ({ storeName, number, point, phrase, sessionName }) => {
         /*const verify = isValidWhatsappNumber(client, number)
 
       if(verify){*/
-        queue.add(async () => {
+    /*   queue.add(async () => {
           const client = getClients()[sessionName];
 
           if (!number || number.trim().length === 0) {
-         } else {
+          } else {
             if (!client) {
               socketMap
                 .get(storeName)
@@ -361,8 +405,8 @@ const data = await getData(category)
 
        client.emit("errorNumber", {message:""})
       }*/
-      }
-    );
+    /*  }
+    );*/
 
     socket.on(
       "response-add-user",
@@ -445,8 +489,34 @@ const data = await getData(category)
       }
     });
 
+    socket.on(
+      "response_update_user",
+      async ({ success, storeName, id, sessionName }) => {
+        if (!success) {
+          const sock = socketMap.get(storeName);
+          if (sock) {
+            sock.emit("error_verify", "AVISE ADMINISTRADOR, CONECTAR QRCODE!");
+            return;
+          } else {
+            console.log(`Socket não encontrado para storeName: ${storeName}`);
+            return;
+          }
+        }
+        console.log("cpf: " + id + " sessionName: " + sessionName);
+
+        const updated = await updateUser(id);
+        if (typeof updated === "string") {
+          console.log("error: " + updated);
+
+          socketMap.get(storeName).emit("updated-error", { message: updated }); //: \n'+updated });
+        } else {
+          console.log("success no user");
+          socketMap.get(storeName).emit("updated-successfully", { ...updated });
+        }
+      }
+    );
     socket.on("update-user", async ({ storeName, id, sessionName }) => {
-      const client = getClients()[sessionName];
+      /*   const client = getClients()[sessionName];
       if (!client) {
         socketMap
           .get(storeName)
@@ -463,7 +533,15 @@ const data = await getData(category)
       } else {
         console.log("success no user");
         socketMap.get(storeName).emit("updated-successfully", { ...updated });
-      }
+      }*/
+
+      const sock = socketMap.get("whatsapp_api");
+
+      console.log("enviando id como " + id);
+
+      console.log("user mandando" + storeName);
+
+      sock.emit("send_update_user", { storeName, id, sessionName });
     });
 
     socket.on("pedir_qrcode", async ({ session, store }) => {
