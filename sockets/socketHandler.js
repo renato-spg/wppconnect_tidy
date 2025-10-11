@@ -198,6 +198,11 @@ function getEvents(socket) {
   socket.on("hidden_", ({ success, msg, sessionName }) => {
     const sock = socketMap.get(sessionName);
 
+    if (!sock) {
+      console.log(`⚠️ Socket não encontrado para sessionName: ${sessionName}`);
+      return;
+    }
+
     sock.emit("hidden", { success: success, msg: msg });
   });
 
@@ -238,6 +243,13 @@ export function setupSocket(io) {
 
     console.log("sessionName socketHandler " + getSessionName);
 
+    if (socketMap.has(getStoreName)) {
+      console.log("Já tem disconectando " + getStoreName);
+
+      socketMap.get(getStoreName).disconnect();
+      socketMap.delete(getStoreName);
+    }
+    console.log("setando " + getStoreName);
     socketMap.set(getStoreName, socket);
 
     socket.storeName = getStoreName;
@@ -264,8 +276,33 @@ export function setupSocket(io) {
       const customizations = await getCustomizations(store_id);
 
       if (typeof customizations !== "string") {
-        socket.emit("get-data-json", { ...customizations });
-        console.log("Enviando dados:", customizations);
+        const sock = socketMap.get(store_id);
+
+        if (!sock) {
+          console.log("nn deu sock enviando");
+        } else {
+          let whatsapp = customizations.whatsapp;
+
+          if (typeof whatsapp === "string") {
+            whatsapp = JSON.parse(whatsapp);
+          }
+
+          let buttons = customizations.buttons;
+          if (typeof buttons === "string") {
+            buttons = JSON.parse(buttons);
+          }
+
+          const dataToSend = {
+            whatsapp,
+            store: customizations.store,
+            buttons,
+          };
+
+          //sock.emit("get-data-json", { ...customizations });
+          sock.emit("get-data-json", dataToSend);
+
+          console.log("Enviando dados:", dataToSend);
+        }
       } else {
         console.log("Error ao criar", customizations);
         //socket.emit('error_verify', 'Erro ao obter dados!');
@@ -598,7 +635,9 @@ const data = await getData(category)
 
     socket.on("disconnect", () => {
       console.log("Cliente desconectado! (" + storeName + ")");
-      socketMap.delete(socket.storeName); // remove do Map
+      if (socketMap.has(socket.storeName)) {
+        socketMap.delete(socket.storeName);
+      }
     });
   });
 }
